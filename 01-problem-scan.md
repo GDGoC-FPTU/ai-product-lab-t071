@@ -1,7 +1,7 @@
 # 01-problem-scan.md — Phase 1 & 2 Individual Work
 
-> **Họ và tên:** [Phạm Sỹ Đức] 
-> **MSSV:** [2A202601601]  
+> **Họ và tên:** [Điền tên của bạn]  
+> **MSSV:** [Điền MSSV]  
 > **Ngày:** 24/07/2026  
 > **Công ty thành viên được chọn để SCAN:** **VinFast**
 

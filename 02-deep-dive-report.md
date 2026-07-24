@@ -2,15 +2,15 @@
 
 > **Tên nhóm:** T071
 > **Thành viên nhóm:**
-> | Họ và tên | MSSV |  
-
+> | Họ và tên | MSSV |
 > |-----------|------|
 > |Trương Minh Hoàng |2A202602004 | 
 > |Đỗ Nhật Minh  | 2A202601085| |
 > |Trần Đức Thiện | 2A202602032 | 
 > |Dương Minh Quân |2A202601903 | 
 > |Lê Hồng Đức|2A202601313 | 
-
+> |Phạm Sĩ Đức| 2A202601601 |
+> **Ngày:** 24/07/2026
 
 ---
 
