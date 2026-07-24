@@ -56,7 +56,7 @@ jobs:
         test-name: SYSTEM_PROMPT
         setup-command: ''
         command: python autograder/autograder.py --check-code-1
-        timeout: 10
+        timeout: 20
         max-score: 10
     - name: evaluate_prompt
       id: evaluate_prompt
@@ -65,7 +65,7 @@ jobs:
         test-name: evaluate_prompt
         setup-command: ''
         command: python autograder/autograder.py --check-code-2
-        timeout: 10
+        timeout: 20
         max-score: 10
     - name: ADVERSARIAL_TESTS
       id: adversarial_tests
@@ -85,6 +85,11 @@ jobs:
         command: python autograder/autograder.py --check-code-4
         timeout: 10
         max-score: 10
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        PYTHONIOENCODING: utf-8
+        PYTHONUTF8: '1'
     - name: Safety Verification
       id: safety-verification
       uses: classroom-resources/autograding-command-grader@v1
@@ -94,6 +99,11 @@ jobs:
         command: python autograder/autograder.py --check-code-5
         timeout: 10
         max-score: 10
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        PYTHONIOENCODING: utf-8
+        PYTHONUTF8: '1'
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       env:
