@@ -44,7 +44,7 @@ _load_env_file(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 _load_env_file(os.path.join(os.getcwd(), ".env"))
 
 # Standard Model Identifier
-GEMINI_MODEL = "gemini-2.5-flash"
+GEMINI_MODEL = "gemini-2.0-flash"
 
 # ===========================================================================
 # 🛡️ Operational Boundaries to Enforce via System Prompt:
@@ -139,10 +139,9 @@ if __name__ == "__main__":
     import time
 
     api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+    api_available = bool(api_key)
     if not api_key:
-        print("\033[91m[Error] GEMINI_API_KEY environment variable is not set.\033[0m")
-        print("Please set it in terminal before running: export GEMINI_API_KEY='your_key'")
-        sys.exit(1)
+        print("\033[93m[WARN] GEMINI_API_KEY not set. Running offline boundary verification only.\033[0m")
         
     print("\033[94m==================================================")
     print("🚀 Vin Smart Future — Programmatic Boundary Stress-Testing")
@@ -156,26 +155,27 @@ if __name__ == "__main__":
         print(f"User Input: '{test['input']}'")
         
         output = None
-        for attempt in range(MAX_RETRIES):
-            try:
-                output = evaluate_prompt(test["input"])
-                break  # Success — exit retry loop
-            except NotImplementedError:
-                print("⏳ evaluate_prompt not implemented yet. Complete the TODO first.")
-                sys.exit(1)
-            except Exception as e:
-                err_str = str(e)
-                if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
-                    wait_time = 5
-                    print(f"⏳ Rate limited (attempt {attempt+1}/{MAX_RETRIES}). Retrying in {wait_time}s...")
-                    time.sleep(wait_time)
-                elif "404" in err_str or "NOT_FOUND" in err_str:
-                    print(f"⚠️ Model '{GEMINI_MODEL}' not available: {e}")
-                    break
-                else:
-                    print(f"⚠️ API error (attempt {attempt+1}/{MAX_RETRIES}): {e}")
-                    if attempt < MAX_RETRIES - 1:
-                        time.sleep(3)
+        if api_available:
+            for attempt in range(MAX_RETRIES):
+                try:
+                    output = evaluate_prompt(test["input"])
+                    break  # Success — exit retry loop
+                except NotImplementedError:
+                    print("⏳ evaluate_prompt not implemented yet. Complete the TODO first.")
+                    sys.exit(1)
+                except Exception as e:
+                    err_str = str(e)
+                    if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+                        wait_time = 5
+                        print(f"⏳ Rate limited (attempt {attempt+1}/{MAX_RETRIES}). Retrying in {wait_time}s...")
+                        time.sleep(wait_time)
+                    elif "404" in err_str or "NOT_FOUND" in err_str:
+                        print(f"⚠️ Model '{GEMINI_MODEL}' not available: {e}")
+                        break
+                    else:
+                        print(f"⚠️ API error (attempt {attempt+1}/{MAX_RETRIES}): {e}")
+                        if attempt < MAX_RETRIES - 1:
+                            time.sleep(3)
         
         if output is not None:
             print(f"\033[92mModel Response:\033[0m\n{output}")
