@@ -1,5 +1,10 @@
 # Lab 02 — Worksheet: AI Product Scoping (Vin Smart Future)
 
+> **Họ và tên:** Phạm Sỹ Đức
+> **MSSV:** 2A202601601
+> **Ngày:** 24/07/2026
+> **Nhóm/Công việc:** AI Engineer tại Vin Smart Future
+
 ---
 
 ## 🏛️ 1. Bối cảnh thực tế: Vin Smart Future (Vingroup)
@@ -63,11 +68,11 @@ Hãy sử dụng **4 Lenses** dưới đây để quét qua hoạt động vận
 ### 📝 List bài toán của tôi:
 | # | Subsidiary (VinFast/Xanh SM...) | Lens | Mô tả ngắn bài toán |
 |---|----------------------------------|------|---------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | VinFast | Lặp lại (Repetitive) | So khớp hóa đơn mua linh kiện với lô nhập kho |
+| 2 | VinFast | Tốn thời gian | Tổng hợp báo cáo tồn kho linh kiện cho 5 nhà máy |
+| 3 | VinFast | AI-upgrade | Cải thiện Trợ lý AI ảo trong xe để trả lời HDSD và bảo trì |
+| 4 | VinFast | Lặp lại (Repetitive) | Phân loại và trả lời yêu cầu bảo hành qua email/tổng đài |
+| 5 | VinFast | AI-upgrade (Predictive) | Dự đoán lỗi pin/battery degradation cho đội xe |
 
 ---
 
@@ -75,26 +80,68 @@ Hãy sử dụng **4 Lenses** dưới đây để quét qua hoạt động vận
 
 Chọn **top 3 bài toán** từ danh sách trên và hoàn thiện **3 Quick Problem Cards** dưới đây (10 phút/card).
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│ QUICK PROBLEM CARD #___                                     │
+│ QUICK PROBLEM CARD #1                                       │
 │                                                             │
-│ Bài toán (1 câu): ________________________________________  │
-│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
+│ Bài toán: Tổng hợp báo cáo tồn kho linh kiện từ 5 ERP       │
+│ Công ty thành viên: [x] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
 │                     [ ] Vinmec   [ ] Khác (Ghi rõ)________  │
 │                                                             │
-│ Ai đang đau (Actor)? ______________________________________ │
+│ Ai đang đau (Actor)? Nhân viên Production Planner (8-10 ng) │
 │                                                             │
-│ Workflow thủ công hiện tại (3-5 bước):                      │
-│   1. ___ ──> 2. ___ ──> 3. ___ ──> 4. ___                   │
+│ Workflow thủ công hiện tại (4 bước):                        │
+│   1. Export ERP ──> 2. Copy-paste Excel ──> 3. Chuẩn hóa ──> 4. Pivot │
 │                                                             │
-│ Bước nào tốn thời gian/lỗi nhất? ___ (⏱ ___ phút/lượt)      │
-│ AI có thể nhảy vào hỗ trợ ở bước nào? _____________________ │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 2&3 (⏱ 45-60 phút/lượt)│
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Tự động chuẩn hóa dữ liệu │
 │                                                             │
-│ Đo thành công bằng gì (Metric có số)? ______________________ │
-│   VD: "Giảm thời gian soạn phản hồi từ 10 min ──> under 2 min"│
+│ Đo thành công bằng gì (Metric có số)?                       │
+│   Giảm thời gian tổng hợp từ 60 phút ──> under 10 phút      │
 │                                                             │
-│ Quick Architecture: [ ] No AI  [ ] Rule  [ ] LLM  [ ] Agent │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #2                                       │
+│                                                             │
+│ Bài toán: Phân loại và trả lời yêu cầu bảo hành VinFast     │
+│ Công ty thành viên: [x] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
+│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________  │
+│                                                             │
+│ Ai đang đau (Actor)? 40 nhân viên CSKH (200+ ticket/ngày)   │
+│                                                             │
+│ Workflow thủ công hiện tại (4 bước):                        │
+│   1. Nhận log ──> 2. Tra cứu DMS ──> 3. Phân loại ──> 4. Trả lời │
+│                                                             │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 2&3 (⏱ 12 phút/lượt)  │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Trích xuất lỗi & phân loại │
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)?                       │
+│   Giảm thời gian xử lý yêu cầu từ 12 min ──> under 3 min    │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent │
+└─────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #3                                       │
+│                                                             │
+│ Bài toán: Dự đoán lỗi pin (battery degradation)             │
+│ Công ty thành viên: [x] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
+│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________  │
+│                                                             │
+│ Ai đang đau (Actor)? Kỹ thuật viên bảo trì, Fleet Manager   │
+│                                                             │
+│ Workflow thủ công hiện tại (4 bước):                        │
+│   1. Lấy Data ──> 2. KTV Phân tích ──> 3. Xe hỏng ──> 4. Sửa │
+│                                                             │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 2 (⏱ Phát hiện trễ 30 ngày)│
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Cảnh báo sớm qua telemetry│
+│                                                             │
+│ Đo thành công bằng gì (Metric có số)?                       │
+│   Phát hiện lỗi sớm 30-60 ngày trước khi xe hỏng            │
+│                                                             │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [ ] LLM  [x] Agent │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -108,29 +155,32 @@ Chọn **top 3 bài toán** từ danh sách trên và hoàn thiện **3 Quick Pr
 # 🏗️ Phase 3 — DEEP-DIVE (Nhóm, 85 min)
 
 ## 3.1. Current-State Workflow Mapping (25 min)
-**Vẽ quy trình hiện tại lên bảng/giấy A3.** Sử dụng các ký hiệu:
-* 🔴 **Bottleneck:** Bước gây tắc nghẽn, tốn thời gian, hoặc sai sót nhiều nhất.
-* 🔄 **Handoff:** Điểm chuyển giao thông tin giữa người và hệ thống, hoặc giữa các bộ phận.
-* Ghi rõ thời gian vận hành trung bình: **Tổng cộng = ____ phút/lượt**.
+**Vẽ quy trình hiện tại (Sơ đồ text):** Bài toán Phân loại & Trả lời Bảo hành VinFast
+1. Nhận email/cuộc gọi khách hàng 🔄
+2. 🔴 Tra cứu hệ thống DMS (Lịch sử bảo dưỡng) - **Bottleneck**
+3. 🔴 Phân loại thủ công vào 8 loại vấn đề - **Bottleneck**
+4. Soạn phản hồi và gửi 🔄
+* Thời gian vận hành trung bình: **Tổng cộng = 12 phút/lượt**.
 
 ## 3.2. Problem Statement (6-field) & Metrics (15 min)
 Điền đầy đủ 6 trường thông tin của bài toán:
 
 | Field | Nội dung chi tiết |
 |---|---|
-| **1. Actor / Operator** | Ai đang thực hiện tác vụ hằng ngày? |
-| **2. Current Workflow** | Mô tả tóm tắt quy trình thủ công hiện tại và công cụ sử dụng. |
-| **3. Bottleneck** | Bước nào chậm, lỗi, hoặc cần xử lý ngôn ngữ tự động nhiều nhất? |
-| **4. Business Impact** | Tổn thất thực tế đo bằng thời gian, chi phí, hoặc SLA của Vingroup. |
-| **5. Success Metric** | AI giải quyết được thì đạt ngưỡng số mấy? (Ví dụ: *"85% vé được phân loại dưới 10s"*). |
-| **6. Operational Boundary** | AI được phép làm gì, TUYỆT ĐỐI không được làm gì, điểm nào cần duyệt? |
+| **1. Actor / Operator** | 40 nhân viên CSKH VinFast (xử lý 200+ yêu cầu/ngày). |
+| **2. Current Workflow** | Đọc khiếu nại, tra cứu mã VIN trên DMS, phân loại thủ công, soạn email/ticket phản hồi mẫu. |
+| **3. Bottleneck** | Bước tra cứu DMS và phân loại ngôn ngữ tự nhiên tốn 8-15 phút, dễ sai sót giữa lỗi phần mềm/phần cứng. |
+| **4. Business Impact** | Chậm trễ SLA phản hồi (quá 24h), throughput thấp, khách hàng phàn nàn và giảm CSAT. |
+| **5. Success Metric** | Phân loại chính xác 95% yêu cầu dưới 10 giây/ticket, giảm thời gian xử lý tổng xuống dưới 3 phút. |
+| **6. Operational Boundary** | AI chỉ được phép gán nhãn loại lỗi và soạn nháp [DRAFT_ONLY]. TUYỆT ĐỐI KHÔNG tự động gửi cho khách hàng. Mọi bản nháp phải có người duyệt (HITL). |
 
 ## 3.3. Future-State Flow & AI Fit (25 min)
-* **Xác định mức AI Fit (AI-Fit Matrix):** Giải pháp thuộc nhóm nào? [ ] Rule / State-Machine [ ] LLM Feature [ ] Agentic Loop.
-* **Vẽ Future-State Flow:** Đánh dấu rõ:
-  * 🔵 **AI Step:** Tác vụ LLM xử lý.
-  * 🟢 **Human Step (HITL):** Bước con người phê duyệt/review (Human-in-the-loop).
-  * ↩️ **Fallback:** Kế hoạch dự phòng khi LLM trả về kết quả lỗi hoặc không tự tin.
+* **Xác định mức AI Fit (AI-Fit Matrix):** Giải pháp thuộc nhóm nào? [ ] Rule / State-Machine [x] LLM Feature [ ] Agentic Loop.
+* **Vẽ Future-State Flow:**
+  * 1. Hệ thống nhận email tự động.
+  * 2. 🔵 **AI Step:** LLM trích xuất mã VIN, phân loại lỗi và sinh bản nháp trả lời.
+  * 3. 🟢 **Human Step (HITL):** Nhân viên CSKH đọc lại bản nháp, chỉnh sửa và bấm nút gửi.
+  * 4. ↩️ **Fallback:** Nếu LLM độ tự tin thấp hoặc input quá phức tạp, trả về nhãn `UNABLE_TO_CLASSIFY` để nhân viên tự làm từ đầu.
 
 ---
 
@@ -155,17 +205,17 @@ Chọn **top 3 bài toán** từ danh sách trên và hoàn thiện **3 Quick Pr
 # 🏁 Phase 5 — EVALUATE (Nhóm, 20 min)
 
 ### AI Readiness Checklist:
-1. [ ] Chúng tôi có sẵn dữ liệu mẫu/logs sạch để test?
-2. [ ] Rủi ro khi AI sai có nằm trong tầm kiểm soát (qua HITL hoặc Fallback)?
-3. [ ] Stakeholders sẵn sàng thay đổi quy trình làm việc cũ?
+1. [x] Chúng tôi có sẵn dữ liệu mẫu/logs sạch để test? (Lịch sử ticket/email cũ)
+2. [x] Rủi ro khi AI sai có nằm trong tầm kiểm soát (qua HITL hoặc Fallback)? (Nhờ có Human-in-the-loop review bản draft)
+3. [x] Stakeholders sẵn sàng thay đổi quy trình làm việc cũ? (Bộ phận CSKH đang quá tải và cần giải pháp)
 
 ### Quyết định cuối cùng của Ban Giám Đốc Vin Smart Future:
-[ ] **GO (Bắt đầu xây dựng Prototype):** Bắt đầu phát triển với scope hẹp.
+[x] **GO (Bắt đầu xây dựng Prototype):** Bắt đầu phát triển với scope hẹp.
 [ ] **NOT YET (Cần tích lũy thêm dữ liệu/xác lập baseline):** Trì hoãn để chuẩn bị thêm.
 [ ] **NO-GO (Không khả thi / Rule-based tốt hơn):** Hủy bỏ dự án AI này.
 
 **Justification (Lý giải quyết định dựa trên bằng chứng kỹ thuật và chi phí):**
-> *Viết lý giải chi tiết tại đây*
+> **GO.** Bài toán có đủ lượng dữ liệu lịch sử để phát triển và test prompt ngay lập tức. Rủi ro hoạt động (AI sinh phản hồi sai) được rào kỹ bằng ranh giới (Operational Boundary) yêu cầu mọi output phải gắn mác `[DRAFT_ONLY]` và phải qua con người duyệt (HITL). Success metric rõ ràng (rút ngắn thời gian từ 12 phút xuống dưới 3 phút/ticket) sẽ tiết kiệm nhân lực đáng kể, đảm bảo ROI cao để xây dựng một bản MVP cho quy trình CSKH.
 
 ---
 
