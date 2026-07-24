@@ -63,11 +63,11 @@ Hãy sử dụng **4 Lenses** dưới đây để quét qua hoạt động vận
 ### 📝 List bài toán của tôi:
 | # | Subsidiary (VinFast/Xanh SM...) | Lens | Mô tả ngắn bài toán |
 |---|----------------------------------|------|---------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | VinFast | Lặp lại | Đối chiếu cảnh báo lỗi pin (BMS) từ telematics với ticket bảo hành thủ công tại trung tâm dịch vụ |
+| 2 | Xanh SM | Pain từ người khác | Tài xế phàn nàn gợi ý điểm đón/trả khách không chính xác vào giờ cao điểm, phải tự điều chỉnh lộ trình |
+| 3 | Vinhomes | Tốn thời gian | Soạn thông báo bảo trì/sự cố định kỳ (cắt nước, thang máy...) gửi riêng theo từng tòa/cư dân |
+| 4 | Vinmec | AI-upgrade | Bác sĩ tổng hợp ghi chú điều trị hằng ngày thành tóm tắt hồ sơ xuất viện |
+| 5 | Vinpearl / VinWonders | Lặp lại | Phân loại yêu cầu đặt vé/đổi lịch/hoàn tiền đến từ nhiều kênh (hotline, Zalo, App) rồi nhập tay vào hệ thống booking |
 
 ---
 
@@ -77,24 +77,86 @@ Chọn **top 3 bài toán** từ danh sách trên và hoàn thiện **3 Quick Pr
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ QUICK PROBLEM CARD #___                                     │
-│                                                             │
-│ Bài toán (1 câu): ________________________________________  │
-│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [ ] Vinhomes  │
-│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________  │
-│                                                             │
-│ Ai đang đau (Actor)? ______________________________________ │
-│                                                             │
-│ Workflow thủ công hiện tại (3-5 bước):                      │
-│   1. ___ ──> 2. ___ ──> 3. ___ ──> 4. ___                   │
-│                                                             │
-│ Bước nào tốn thời gian/lỗi nhất? ___ (⏱ ___ phút/lượt)      │
-│ AI có thể nhảy vào hỗ trợ ở bước nào? _____________________ │
-│                                                             │
-│ Đo thành công bằng gì (Metric có số)? ______________________ │
-│   VD: "Giảm thời gian soạn phản hồi từ 10 min ──> under 2 min"│
-│                                                             │
-│ Quick Architecture: [ ] No AI  [ ] Rule  [ ] LLM  [ ] Agent │
+│ QUICK PROBLEM CARD #1                                        │
+│                                                               │
+│ Bài toán (1 câu): Đối chiếu cảnh báo mã lỗi pin (BMS) tự động│
+│ gửi từ xe với ticket bảo hành thủ công tại trung tâm dịch vụ.│
+│ Công ty thành viên: [x] VinFast  [ ] Xanh SM  [ ] Vinhomes   │
+│                     [ ] Vinmec   [ ] Khác (Ghi rõ)________   │
+│                                                               │
+│ Ai đang đau (Actor)? Kỹ thuật viên trung tâm dịch vụ VinFast │
+│                                                               │
+│ Workflow thủ công hiện tại (4 bước):                         │
+│   1. Nhận cảnh báo BMS từ telematics ──> 2. Tra cứu VIN xe & │
+│   lịch sử bảo hành ──> 3. Đối chiếu mã lỗi với catalog kỹ    │
+│   thuật (hàng trăm mã) ──> 4. Tạo ticket bảo hành trên CRM   │
+│                                                               │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 3 (⏱ 10 phút/lượt)     │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Bước 3-4 (match mã lỗi │
+│ với catalog + draft ticket)                                  │
+│                                                               │
+│ Đo thành công bằng gì (Metric có số)?                        │
+│   Giảm thời gian xử lý từ 15 phút ──> dưới 3 phút/lượt;      │
+│   tỉ lệ match đúng mã lỗi ≥ 95%.                             │
+│                                                               │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #2                                        │
+│                                                               │
+│ Bài toán (1 câu): Tổng hợp ghi chú điều trị hằng ngày thành  │
+│ tóm tắt hồ sơ xuất viện cho bệnh nhân.                       │
+│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [ ] Vinhomes   │
+│                     [x] Vinmec   [ ] Khác (Ghi rõ)________   │
+│                                                               │
+│ Ai đang đau (Actor)? Bác sĩ điều trị nội trú (quá tải)       │
+│                                                               │
+│ Workflow thủ công hiện tại (4 bước):                         │
+│   1. Bác sĩ ghi chú diễn biến bệnh án hằng ngày ──> 2. Tổng  │
+│   hợp toàn bộ ghi chú khi xuất viện ──> 3. Soạn tóm tắt      │
+│   (chẩn đoán, điều trị, dặn dò) ──> 4. Bác sĩ duyệt & ký hồ sơ│
+│                                                               │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 2-3 (⏱ 20-25 phút/BN)  │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Bước 2-3 (draft tóm    │
+│ tắt, bác sĩ chỉ review/chỉnh sửa)                            │
+│                                                               │
+│ Đo thành công bằng gì (Metric có số)?                        │
+│   Giảm thời gian soạn tóm tắt từ 25 phút ──> dưới 5 phút;    │
+│   100% hồ sơ vẫn qua bác sĩ ký duyệt trước khi lưu.          │
+│                                                               │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ QUICK PROBLEM CARD #3                                        │
+│                                                               │
+│ Bài toán (1 câu): Phân loại & nhập liệu yêu cầu đặt vé/đổi   │
+│ lịch/hoàn tiền đến từ nhiều kênh (hotline, Zalo, App).       │
+│ Công ty thành viên: [ ] VinFast  [ ] Xanh SM  [ ] Vinhomes   │
+│                     [ ] Vinmec   [x] Khác (Vinpearl/VinWonders)│
+│                                                               │
+│ Ai đang đau (Actor)? Nhân viên CSKH tổng đài Vinpearl        │
+│                                                               │
+│ Workflow thủ công hiện tại (4 bước):                         │
+│   1. Nhận yêu cầu qua hotline/Zalo/App ──> 2. Đọc & phân loại│
+│   loại yêu cầu ──> 3. Tra cứu tình trạng phòng/vé còn trống  │
+│   ──> 4. Nhập tay vào hệ thống booking nội bộ                │
+│                                                               │
+│ Bước nào tốn thời gian/lỗi nhất? Bước 2 & 4 (⏱ 8 phút/lượt,  │
+│ do chuyển qua lại nhiều hệ thống)                            │
+│ AI có thể nhảy vào hỗ trợ ở bước nào? Bước 2 (phân loại +    │
+│ trích xuất thông tin điền sẵn form nhập liệu)                │
+│                                                               │
+│ Đo thành công bằng gì (Metric có số)?                        │
+│   90% yêu cầu được phân loại đúng dưới 5 giây; thời gian     │
+│   nhập liệu giảm từ 8 phút ──> dưới 2 phút/lượt.             │
+│                                                               │
+│ Quick Architecture: [ ] No AI  [ ] Rule  [x] LLM  [ ] Agent  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
