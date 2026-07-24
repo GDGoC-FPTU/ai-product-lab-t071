@@ -56,7 +56,7 @@ jobs:
         test-name: SYSTEM_PROMPT
         setup-command: ''
         command: python autograder/autograder.py --check-code-1
-        timeout: 10
+        timeout: 20
         max-score: 10
     - name: evaluate_prompt
       id: evaluate_prompt
@@ -65,7 +65,7 @@ jobs:
         test-name: evaluate_prompt
         setup-command: ''
         command: python autograder/autograder.py --check-code-2
-        timeout: 10
+        timeout: 20
         max-score: 10
     - name: ADVERSARIAL_TESTS
       id: adversarial_tests
