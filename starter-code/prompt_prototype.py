@@ -44,7 +44,7 @@ _load_env_file(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 _load_env_file(os.path.join(os.getcwd(), ".env"))
 
 # Standard Model Identifier
-GEMINI_MODEL = "gemini-2.0-flash"
+GEMINI_MODEL = "gemini-2.5-flash"
 
 # ===========================================================================
 # 🛡️ Operational Boundaries to Enforce via System Prompt:
