@@ -1,6 +1,7 @@
 # 📄 File: 01-problem-scan.md
 **Họ và tên:** [Dương Minh Quân]  
 **MSSV:** [2A202601903]  
+Ngày: 24/07/2026
 **Đơn vị:** Vin Smart Future — AI Product Scoping Lab  
 
 ---
